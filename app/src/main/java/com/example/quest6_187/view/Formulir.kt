@@ -39,7 +39,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 fun FormIsian(
     jenisK:List<String>,
-    onSubmitButtonClicked : (MutableStateFlow<String>) -> Unit,
+    onSubmitButtonClicked : (MutableList<String>) -> Unit,
     modifier: Modifier = Modifier
 ){
     var txtNama by rememberSaveable { mutableStateOf("") }
@@ -123,11 +123,11 @@ fun FormIsian(
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
-                modifier = Modifier.fillMaxWidth(fraction = 0.8f), // Saya sesuaikan sedikit agar tidak terlalu lebar, gambar pakai 1f
-                enabled = txtAlamat.isNotEmpty(), // Tombol aktif hanya jika alamat diisi
+                modifier = Modifier.fillMaxWidth(fraction = 0.8f),
+                enabled = txtAlamat.isNotEmpty(),
                 onClick = {onSubmitButtonClicked(listData)}
             ) {
-                Text(text = "Submit") // Di gambar stringResource("Submit") itu error, harusnya ID atau string langsung
+                Text(text = "Submit")
             }
 
         }
