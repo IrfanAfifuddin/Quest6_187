@@ -26,13 +26,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.quest6_187.R
 import androidx.compose.material3.DividerDefaults.Thickness
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn (ExperimentalMaterial3Api::class)
 @Composable
 fun FormIsian(
-    jenisK:List<String> = listOf("Laki-laki", "Perempuan"),
-    onSubmitButtonClicked : () -> Unit
+    jenisK:List<String>,
+    onSubmitButtonClicked : (MutableStateFlow<String>) -> Unit,
+    modifier: Modifier = Modifier
 ){
+    var txtNama by rememberSaveable { mutableStateOf("") }
+
     Scaffold(modifier=Modifier,
         {
             TopAppBar(
