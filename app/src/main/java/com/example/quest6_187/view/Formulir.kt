@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -26,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.quest6_187.R
 import androidx.compose.material3.DividerDefaults.Thickness
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,7 +45,7 @@ fun FormIsian(
     var txtNama by rememberSaveable { mutableStateOf("") }
     var txtAlamat by remember { mutableStateOf("") }
     var txtGender by remember { mutableStateOf("") }
-    var listData: MutableList<String> = mutableListOf(txtNama, txtAlamat, txtGender)
+    val listData: MutableList<String> = mutableListOf(txtNama, txtGender, txtAlamat)
 
     Scaffold(modifier=Modifier,
         {
@@ -59,24 +61,42 @@ fun FormIsian(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally) {
             OutlinedTextField(
-                value = "",
+                value = txtNama,
                 singleLine = true,
+                shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
-                    .padding(top = 20.dp)
-                    .width(250.dp),
-                label = {Text(text = "Nama Lengkap")},
-                onValueChange = {},
+                    .width(250.dp)
+                    .padding(top = 20.dp),
+                label = { Text(text = "Nama Lengkap") },
+                onValueChange = {
+                    txtNama = it
+                }
             )
-            HorizontalDivider(modifier = Modifier
-                .padding(20.dp)
-                .width(250.dp), thickness = Thickness,color = Color.Red)
-            Row {
-                jenisK.forEach {
-                        item->
-                    Row(verticalAlignment = Alignment.CenterVertically){
+            HorizontalDivider(
+                modifier = Modifier
+                    .padding(all = 12.dp)
+                    .width(250.dp),
+                thickness = 1.dp,
+                color = Color.Blue
+            )
+            Row(
+                modifier = Modifier.padding(vertical = 10.dp) // Tambahan padding agar rapi
+            ) {
+                jenisK.forEach { item ->
+                    Row(
+                        modifier = Modifier.selectable(
+                            selected = txtGender == item,
+                            onClick = {
+                                txtGender = item
+                            }
+                        ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         RadioButton(
-                            selected = false,
-                            onClick = {item}
+                            selected = txtGender == item,
+                            onClick = {
+                                txtGender = item
+                            }
                         )
                         Text(text = item)
                     }
@@ -89,21 +109,27 @@ fun FormIsian(
                 color = Color.Red
             )
             OutlinedTextField(
-                value = "",
+                value = txtAlamat,
                 singleLine = true,
+                shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
-                    .width(width = 250.dp),
-                label = {Text(text = "Alamat")},
-                onValueChange = {},
+                    .width(250.dp), // Sesuaikan lebar dengan input nama
+                label = { Text(text = "Alamat Lengkap") },
+                onValueChange = {
+                    txtAlamat = it
+                }
             )
-            Spacer(modifier = Modifier.height( 30.dp))
+
+            Spacer(modifier = Modifier.height(20.dp))
+
             Button(
-                modifier = Modifier.fillMaxWidth( 1f)
-                    .padding(all = 25.dp),
-                onClick = onSubmitButtonClicked
+                modifier = Modifier.fillMaxWidth(fraction = 0.8f), // Saya sesuaikan sedikit agar tidak terlalu lebar, gambar pakai 1f
+                enabled = txtAlamat.isNotEmpty(), // Tombol aktif hanya jika alamat diisi
+                onClick = {onSubmitButtonClicked(listData)}
             ) {
-                Text(text = stringResource(id = R.string.submit))
+                Text(text = "Submit") // Di gambar stringResource("Submit") itu error, harusnya ID atau string langsung
             }
+
         }
     }
 }
