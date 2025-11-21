@@ -43,6 +43,7 @@ fun FormIsian(
     var txtNama by rememberSaveable { mutableStateOf("") }
     var txtAlamat by remember { mutableStateOf("") }
     var txtGender by remember { mutableStateOf("") }
+    var listData: MutableList<String> = mutableListOf(txtNama, txtAlamat, txtGender)
 
     Scaffold(modifier=Modifier,
         {
